@@ -11,6 +11,9 @@ import { ChallengeBox } from "../components/ChallengeBox";
 import { CountDownProvider } from "../contexts/CountDownContexts";
 import { ThemeController } from "../components/ThemeController";
 import { ChallengesProvider } from "../contexts/ChallengesContexts";
+import { NavigationBar } from "../components/NavigationBar";
+import { useSession } from "next-auth/client";
+import Login from "../components/login";
 
 interface IHomeProps {
   level: number;
@@ -20,6 +23,7 @@ interface IHomeProps {
 
 export default function Home(props: IHomeProps) {
   const { level, currentXP, completedChallenges } = props;
+  const [session, loading] = useSession();
 
   return (
     <ChallengesProvider
@@ -27,25 +31,31 @@ export default function Home(props: IHomeProps) {
       currentXP={currentXP}
       completedChallenges={completedChallenges}
     >
-      <div className={styles.container}>
-        <Head>
-          <title> Início | FocusDungeon </title>
-        </Head>
-        <ExperienceBar />
-        <ThemeController />
-        <CountDownProvider>
-          <section>
-            <div>
-              <Profile />
-              <CompletedChallenges />
-              <CountDown />
-            </div>
-            <div>
-              <ChallengeBox />
-            </div>
-          </section>
-        </CountDownProvider>
-      </div>
+      <Head>
+        <title> Início | FocusDungeon </title>
+      </Head>
+      <ThemeController />
+      <NavigationBar />
+      {session ? (
+        <div className={styles.container}>
+          <ExperienceBar />
+
+          <CountDownProvider>
+            <section>
+              <div>
+                <Profile />
+                <CompletedChallenges />
+                <CountDown />
+              </div>
+              <div>
+                <ChallengeBox />
+              </div>
+            </section>
+          </CountDownProvider>
+        </div>
+      ) : (
+        <Login />
+      )}
     </ChallengesProvider>
   );
 }

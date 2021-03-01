@@ -42,12 +42,8 @@
   transition: 0.3s;
 }
 
-.themeControllerContainer input + label {
-  background: var(--blue-dark);
-}
-
 .themeControllerContainer input:checked + label {
-  background: var(--background);
+  background:  #4953b8;
 }
 
 .themeControllerContainer input:checked + label:after {

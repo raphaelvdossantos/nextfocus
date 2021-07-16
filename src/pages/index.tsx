@@ -23,7 +23,7 @@ interface IHomeProps {
 
 export default function Home(props: IHomeProps) {
   const { level, currentXP, completedChallenges } = props;
-  const [session, loading] = useSession();
+  const [session] = useSession();
 
   return (
     <ChallengesProvider
